@@ -35,10 +35,10 @@ app.use(async (err, req, res, next) => { // eslint-disable-line
                 title: err.message,
                 description: `**Domain**: \`${req.hostname}\`\n**Path**: \`${req.originalUrl}\`\n**URL**: [\`https://${req.hostname}${req.originalUrl}\`](https://${req.hostname}${req.originalUrl})\n**IP**: \`${(req.headers["x-forwarded-for"] && req.headers["x-forwarded-for"].split(",")[0])
                         || req.ip
-                        || (req.connection && req.connection.remoteAddress)}\`\n**Stack**: \`\`\`js\n${err.stack}\`\`\``,
+                        || (req.connection && req.connection.remoteAddress)}\`\n**Stack**: \`\`\`js\n${err.stack}\`\`\`\n**Error Body**:\n${err.response.body}`,
                 color: 0xff0000,
                 timestamp: new Date()
-            }],
+            }]
         });
 
         Logger.error(err.stack);

@@ -1,10 +1,9 @@
 // Module imports
-const { createHmac } = require("crypto");
 const { Client } = require("eris");
 
 // Tokens and other sensitive stuff imports / exports
 const { botToken, trelloKey, trelloToken, trelloSecret, clientID, clientSecret } = process.env;
-const cookieSecret = createHmac("sha1", (Math.pow(Date.now(), 24)).toString(16)).update(((Date.now() + Date.now()) + ((Math.pow(Date.now(), 24)) * (Math.pow(Date.now(), 24) - 1)) / (new Date()).getSeconds()).toString(16)).digest("hex"); // Used for creating signed cookies.
+const cookieSecret = []; // Used for creating signed cookies. Could be an array of strings or just a string.
 
 // API related imports
 const port = process.env.PORT || 80; // The port to which the API should listen to.

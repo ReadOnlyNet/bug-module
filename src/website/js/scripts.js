@@ -8,8 +8,8 @@ window.onload = async () => {
     const userID = decodedCookie.match(/placeholderID=(.*)/)[1].split(";")[0];
     document.getElementById("login").innerHTML = userName;
     document.getElementById("userAvatar").setAttribute("src", `${userAvatar}`);
-    document.getElementById("codespan6").innerHTML = userName;
-    document.getElementById("codespan7").innerHTML = userID;
+    document.getElementById("codespanName").innerHTML = userName;
+    document.getElementById("codespanID").innerHTML = userID;
 
     const config = {
         attributes: true

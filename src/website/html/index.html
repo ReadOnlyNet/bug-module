@@ -43,13 +43,13 @@
 		</div>
 		<div class="w3-col s12 m12 l6" style="padding-top: 20px !important">
 			<Form method="post" enctype="multipart/form-data" action="./formparser" class="w3-card w3-topbar w3-round w3-container w3-theme-card w3-row"
-			 id="bug-report" style="border-color:#336fd5 !important" onreset='document.getElementById("additionalInfo2").innerHTML = ""; changeHeight(); collectiveClearer(); hideFilePreviewer(true); restoreBorder()'>
+			 id="bug-report" style="border-color:#336fd5 !important" onreset='resetFunction()'>
 				<br>
 				<label class="w3-text-white" for="textarea-bug" title="bug-input">
 					<b>Bug *</b>:
 					<br>
 					<div style="padding-top: 8px">
-						<textarea class="w3-input w3-theme" name="Bug" id="Bug" maxlength="210" style="resize:vertical" placeholder="A brief info about the bug" oninput="inputFunction(this); inputFunction2(); bugChanged = true" onblur="highlightBorder(this)" required></textarea>
+						<textarea class="w3-input w3-theme" name="Bug" id="Bug" maxlength="210" style="resize:vertical" placeholder="A brief info about the bug" oninput="inputFunction(this)" onblur="highlightBorder(this)" required></textarea>
 					</div>
 				</label>
 				<br>
@@ -70,7 +70,7 @@
 					<b>Tag *:</b>
 					<br>
 					<div style="padding-top: 8px">
-						<input name="tag" type="text" class="w3-input w3-theme" id="tag" maxlength="24" placeholder="Unique identifier(s) used for reference purposes" oninput="inputFunction(this); inputFunction6(); tagChanged = true;" onblur="highlightBorder(this)" required/>
+						<input name="tag" type="text" class="w3-input w3-theme" id="tag" maxlength="24" placeholder="Unique identifier(s) used for reference purposes" oninput="inputFunction(this)" onblur="highlightBorder(this)" required/>
 					</div>
 				</label>
 				<br>
@@ -78,7 +78,7 @@
 					<b>Details *</b>:
 					<br>
 					<div style="padding-top: 8px">
-						<textarea class="w3-input w3-theme" name="Details" id="Details" maxlength="630" rows="4" style="resize:vertical" placeholder="A brief description about the bug" oninput="inputFunction(this); inputFunction3(); detailsChanged = true" onblur="highlightBorder(this)" required></textarea>
+						<textarea class="w3-input w3-theme" name="Details" id="Details" maxlength="630" rows="4" style="resize:vertical" placeholder="A brief description about the bug" oninput="inputFunction(this)" onblur="highlightBorder(this)" required></textarea>
 					</div>
 				</label>
 				<br>
@@ -86,7 +86,7 @@
 					<b>Repro Steps *</b>:
 					<br>
 					<div style="padding-top: 8px">
-						<textarea class="w3-input w3-theme" name="reproSteps" id="reproSteps" maxlength="620" rows="8" style="resize:vertical" placeholder="Repro steps for the bug" oninput="inputFunction(this); inputFunction4(); reproChanged = true" onblur="highlightBorder(this)" required></textarea>
+						<textarea class="w3-input w3-theme" name="reproSteps" id="reproSteps" maxlength="620" rows="8" style="resize:vertical" placeholder="Repro steps for the bug" oninput="inputFunction(this)" onblur="highlightBorder(this)" required></textarea>
 					</div>
 				</label>
 				<div class="accordionElement" onclick="reveal()" onkeypress="reveal()" style="padding-top: 8px !important; padding-bottom: 4px !important">
@@ -98,41 +98,26 @@
 						<br>
 						<div style="padding-top: 8px">
 							<textarea class="w3-input w3-theme" name="info" id="info" maxlength="690" rows="6" style="resize:vertical" placeholder="Additional info you want to add to this report"
-							 oninput="inputFunction5()"></textarea>
+							 oninput="inputFunction(this)"></textarea>
 						</div>
 					</label>
 					<br>
 					<label class="w3-text-white" for="input-file">
 						<b>Attachments</b>:
 					</label>
-					<div style="padding-top: 8px; padding-bottom: 12px">
-						<label class="w3-text-white" for="Attachment-type-button" title="file-button">
-							<button type="button" class="w3-btn w3-theme-button w3-round" id="fileButton" onclick="buttonFunction()" onkeypress="buttonFunction()">Upload file(s)</button>
+					<input type="file" id="file" name="Attachments" class="hideFile" multiple/>
+					<div style="padding-top: 2px; padding-bottom: 12px">
+						<label for="link / file-input" title="file-links">
+							<div style="padding-bottom: 4px">
+								<span class="file-upload" onclick="fileUpload()" onkeypress="fileUpload()">Click here</span> to attach files. Can also attach files by dragging and dropping / pasting those in textarea.
+							</div>
+							<textarea class="w3-input w3-theme droppable" name="Attachments2" id="fileText" rows="4" style="resize:vertical" placeholder='Please separate the links using "||" as the separator. The links must also be a direct link to the file.'></textarea>
+							<label id="fileCounter" for="Attached file count" title="file-counter" style="padding-top: 8px !important" hidden></label>
 						</label>
-						<label class="w3-text-white" for="Attachment-type-button" title="link-button">
-							<button type="button" class="w3-btn w3-theme-button w3-round" id="linkButton" onclick="buttonFunction2()" onkeypress="buttonFunction2()">Upload link(s)</button>
-						</label>
-					</div>
-					<input type="file" id="file" name="Attachments" class="hideFile" multiple disabled/>
-					<label id="additionalInfo" for="textarea-Attachments2" title="Link-Info" hidden>
-						Please separate the links using <code class="w3-codespan">||</code> as the separator. The link must also be a direct link to the file.
-					</label>
-					<div id="hidden" style="padding-top: 8px; padding-bottom: 12px" hidden>
-						<label for="link-input" title="file-links">
-							<textarea class="w3-input w3-theme" name="Attachments2" id="fileText" rows="4" style="resize:vertical" oninput="inputFunction(this)"
-							 disabled></textarea>
-						</label>
-					</div>
-					<div id="fileDrop" title="file-upload-area" class="w3-col s12" style="width: 100% !important; padding-bottom: 12px !important; cursor: pointer" hidden>
-						<div class="droppable" onclick="document.getElementById('additionalInfo2').innerHTML = ''; changeHeight()"
-						 onkeypress="document.getElementById('additionalInfo2').innerHTML = ''; changeHeight()">
-							<div class="w3-center textContent" style="padding-top: 35px; padding-bottom: 35px"></div>
-						</div>
-						<label id="additionalInfo2" for="Attached file count" title="file-counter" style="padding-top: 8px !important" hidden></label>
 					</div>
 				</div>
 				<div>
-					<div class="w3-panel w3-red w3-display-container" id="attachWarn" style="overflow: hidden !important; padding-top: 4px" hidden>
+					<div class="w3-panel w3-red w3-display-container" id="attachWarnCount" style="overflow: hidden !important; padding-top: 4px" hidden>
 						<span onclick="this.parentElement.style.display='none'; changeHeight()" onkeypress="this.parentElement.style.display='none'; changeHeight()" class="w3-button w3-red w3-small w3-display-topright">&times;</span>
 						<p class="w3-col s11">Please contact the bug hunter if you want to upload more than eight attachments.</p>
 					</div>
@@ -144,7 +129,7 @@
 						<span onclick="this.parentElement.style.display='none'; changeHeight()" onkeypress="this.parentElement.style.display='none'; changeHeight()" class="w3-button w3-red w3-small w3-display-topright">&times;</span>
 						<p class="w3-col s11">Please fill in the highlighted field(s) before submitting the form.</p>
 					</div>
-					<div class="w3-panel w3-red w3-display-container" id="attachWarn2" style="overflow: hidden !important; padding-top: 4px" hidden>
+					<div class="w3-panel w3-red w3-display-container" id="attachWarnSize" style="overflow: hidden !important; padding-top: 4px" hidden>
 						<span onclick="this.parentElement.style.display='none'; changeHeight()" onkeypress="this.parentElement.style.display='none'; changeHeight()" class="w3-button w3-red w3-small w3-display-topright">&times;</span>
 						<p class="w3-col s11">Please contact the bug hunter if you want to upload files of size more than 8 MB.</p>
 					</div>
@@ -178,7 +163,7 @@
 						<div class="w3-col" style="width: 90% !important">
 							<div class="w3-display-topright w3-text-grey w3-hover-text-black" style="font-size: 18px !important; padding-top: 4px !important; padding-right: 8px !important; cursor: pointer">&times;</div>
 							<div class="w3-row">
-								<h5 class="w3-col s11 m11 l11" style="word-wrap: break-word !important; padding-top: 4px !important"><b id="codespan">Placeholder Title</b></h5>
+								<h5 class="w3-col s11 m11 l11" style="word-wrap: break-word !important; padding-top: 4px !important"><b id="codespanBug">Placeholder Title</b></h5>
 								<span class="w3-text-grey w3-col s10 m10 l10" style="padding-bottom: 28px !important">In list To be reviewed</span>
 							</div>
 						</div>
@@ -192,14 +177,14 @@
 							<span class="w3-col l4 w3-panel w3-text-grey w3-right w3-hide-small w3-hide-medium">ACTIONS</span>
 							<div class="w3-row">
 								<span class="w3-col s11 m11 l8"><b>Details</b>:</span>
-								<span id="codespan2" class="w3-col s11 m11 l8" style="word-wrap: break-word !important; white-space: pre-line !important">Placeholder for Details</span>
+								<span id="codespanDetails" class="w3-col s11 m11 l8" style="word-wrap: break-word !important; white-space: pre-line !important">Placeholder for Details</span>
 								<span class="w3-col s11 m11 l8" style="padding-top: 5px"><b>Repro Steps</b>:</span>
-								<span id="codespan3" class="w3-col s11 m11 l8" style="word-wrap: break-word !important; white-space: pre-line !important">Placeholder for Repro Steps</span>
+								<span id="codespanReproSteps" class="w3-col s11 m11 l8" style="word-wrap: break-word !important; white-space: pre-line !important">Placeholder for Repro Steps</span>
 								<span class="w3-col s11 m11 l8" style="padding-top: 5px" id="infotitle" hidden><b>Additional info</b>:</span>
-								<span id="codespan4" class="w3-col s11 m11 l8" style="word-wrap: break-word !important; white-space: pre-line"></span>
-								<span class="w3-col s11 m11 l8" style="padding-top: 16px"><b>Tags</b>: <span id="codespan5" style="word-wrap: break-word !important; white-space: pre-line !important"></span></span>
-								<span class="w3-col s11 m11 l8" style="padding-top: 5px"><b>Reporter name</b>: <span id="codespan6" style="word-wrap: break-word !important"></span></span>
-								<span class="w3-col s11 m11 l8" style="padding-top: 5px"><b>Reporter ID</b>: <span id="codespan7" style="word-wrap: break-word !important"></span></span>
+								<span id="codespanInfo" class="w3-col s11 m11 l8" style="word-wrap: break-word !important; white-space: pre-line"></span>
+								<span class="w3-col s11 m11 l8" style="padding-top: 16px"><b>Tags</b>: <span id="codespanTags" style="word-wrap: break-word !important; white-space: pre-line !important"></span></span>
+								<span class="w3-col s11 m11 l8" style="padding-top: 5px"><b>Reporter name</b>: <span id="codespanName" style="word-wrap: break-word !important"></span></span>
+								<span class="w3-col s11 m11 l8" style="padding-top: 5px"><b>Reporter ID</b>: <span id="codespanID" style="word-wrap: break-word !important"></span></span>
 								<div class="w3-rest w3-hide-small w3-hide-medium" style="padding-left: 16px !important">
 									<button class="w3-button fa button-class w3-block"><span class="w3-text-grey">&#xf06e;</span> Watch</button>
 									<div style="padding-top: 8px !important; padding-bottom: 16px !important"><button class="w3-button fa button-class w3-block"><span class="w3-text-grey">&#xf087;</span> Vote</button></div>
@@ -413,37 +398,37 @@
 		</div>
 	</div>
 	<div>
-		<div class="w3-modal w3-center" id="zoomImage1">
+		<div class="w3-modal" id="zoomImage1">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
 			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy1" alt="image-copy-1">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage2">
+		<div class="w3-modal" id="zoomImage2">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy2" alt="image-copy-2">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy2" alt="image-copy-2">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage3">
+		<div class="w3-modal" id="zoomImage3">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy3" alt="image-copy-3">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy3" alt="image-copy-3">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage4">
+		<div class="w3-modal" id="zoomImage4">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy4" alt="image-copy-4">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy4" alt="image-copy-4">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage5">
+		<div class="w3-modal" id="zoomImage5">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy5" alt="image-copy-5">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy5" alt="image-copy-5">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage6">
+		<div class="w3-modal" id="zoomImage6">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy6" alt="image-copy-6">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy6" alt="image-copy-6">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage7">
+		<div class="w3-modal" id="zoomImage7">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy7" alt="image-copy-7">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy7" alt="image-copy-7">
 		</div>
-		<div class="w3-modal w3-center" id="zoomImage8">
+		<div class="w3-modal" id="zoomImage8">
 			<div class="close-modal" onclick="this.parentElement.style.display = 'none'"></div>
-			<img class="w3-animate-zoom w3-center w3-modal-content image-modal" id="image-copy8" alt="image-copy-8">
+			<img class="w3-animate-zoom w3-modal-content image-modal" id="image-copy8" alt="image-copy-8">
 		</div>
 	</div>
 	<footer>
@@ -453,6 +438,48 @@
     		let tagChanged = false;
     		let detailsChanged = false;
 			let reproChanged = false;
+			let traditionalUpload = false;
+			let cooldown = false;
+			const fileInput = document.getElementById("file");
+			const fileCounter = document.getElementById('fileCounter');
+			const bug = document.getElementById("Bug");
+			const tags = document.getElementById("tag");
+			const details = document.getElementById("Details");
+			const reproSteps = document.getElementById("reproSteps");
+			const info = document.getElementById("info");
+			const codespanBug = document.getElementById("codespanBug");
+			const codespanDetails = document.getElementById("codespanDetails");
+			const codespanReproSteps = document.getElementById("codespanReproSteps");
+			const infoTitle = document.getElementById("infotitle");
+			const codespanInfo = document.getElementById("codespanInfo");
+			const visualizer = document.getElementById("visualizer");
+			const bugReport = document.getElementById("bug-report");
+			const fileText = document.getElementById("fileText");
+			const type1 = document.getElementById("type1");
+			const type2 = document.getElementById("type2");
+			const attachWarnLink = document.getElementById("attachWarnLink");
+			const cardCoverImageParent = document.getElementById("image-parent");
+			const imagePreviewerDivision = document.getElementById("attachment-previewer");
+			const additionalFields = document.getElementById("additional-fields");
+			const arrowElement = document.getElementById("changeArrow");
+			const codespanTags = document.getElementById("codespanTags");
+			const specialCharWarn = document.getElementById("special-Char-Warn");
+			const fileElement = document.querySelector(".droppable");
+			const cardCover = document.getElementById("card-cover");
+			const imageParent = document.getElementById("image-parent");
+			const attachWarnCount = document.getElementById("attachWarnCount");
+			const attachWarnSize = document.getElementById("attachWarnSize");
+			const submitWarn = document.getElementById("submitWarn");
+			const importantElements = [bug, tags, details, reproSteps];
+
+
+			function resetFunction() {
+				fileCounter.innerHTML = "";
+				changeHeight();
+				collectiveClearer();
+				hideFilePreviewer(true);
+				restoreBorder();
+			}
 
 			function highlightBorder(element) {
 				function changeBorder() {
@@ -480,102 +507,104 @@
 				tagChanged = false;
 				detailsChanged = false;
 				reproChanged = false;
+
+				
+				for (const element of importantElements) {
+					element.style.border = "";
+				}
 			}
 
 			function reveal() {
-				const displayValue = document.getElementById("additional-fields").style.display;
-				const arrowElement = document.getElementById("changeArrow");
+				const displayValue = additionalFields.style.display;
 	
 				if (displayValue === "block") {
-					document.getElementById("additional-fields").style.display = "none";
+					additionalFields.style.display = "none";
 					arrowElement.innerHTML = "&#xf107;  Additional fields  &#xf107;";
 					changeHeight();
 				}
 				else {
-					document.getElementById("additional-fields").style.display = "block";
+					additionalFields.style.display = "block";
 					arrowElement.innerHTML = "&#xf106;  Additional fields  &#xf106;";
 					changeHeight();
 				}
 			}
-	
+
 			function collectiveClearer() {
 				setTimeout(() => {
-					inputFunction2();
-					inputFunction3();
-					inputFunction4();
-					inputFunction5();
-					inputFunction6();
+					for (const element of importantElements) {
+						inputFunction(element);
+					}
 				}, 800);
 			}
-	
-			function inputFunction2() {
-				if (document.getElementById("Bug").value.length !== 0) {
-					document.getElementById("codespan").innerHTML = document.getElementById("Bug").value;
-				}
-				else {
-					document.getElementById("codespan").innerHTML = "Placeholder Title";
-				}
-			}
-	
-			function inputFunction3() {
-				if (document.getElementById("Details").value.length !== 0) {
-					const compiledMarkdown = marked(document.getElementById("Details").value); // For compiling markdown: https://github.com/markedjs/marked
-					document.getElementById("codespan2").innerHTML = compiledMarkdown;
-				}
-				else {
-					document.getElementById("codespan2").innerHTML = "Placeholder for Details";
-				}
-			}
-	
-			function inputFunction4() {
-				if (document.getElementById("reproSteps").value.length !== 0) {
-					const compiledMarkdown = marked(document.getElementById("reproSteps").value);
-					document.getElementById("codespan3").innerHTML = compiledMarkdown;
-				}
-				else {
-					document.getElementById("codespan3").innerHTML = "Placeholder for Repro Steps";
-				}
-			}
-	
-			function inputFunction5() {
-				if (document.getElementById("info").value.length !== 0) {
-					const compiledMarkdown = marked(document.getElementById("info").value);
-					document.getElementById("infotitle").style.display = "block";
-					document.getElementById("codespan4").innerHTML = compiledMarkdown;
-				}
-				else {
-					document.getElementById("infotitle").style.display = "none";
-					document.getElementById("codespan4").innerHTML = "";
-				}
-			}
-	
-			function inputFunction6() {
-				const tagElement = document.getElementById("tag");
-				if (/^[a-z0-9,\s]*$/i.test(tagElement.value) === true) {
-					compiledMarkdown = marked(tagElement.value);
-					document.getElementById("codespan5").innerHTML = compiledMarkdown;
-				}
-				else {
-					document.getElementById("special-Char-Warn").style.display = "block";
-					tagElement.value = tagElement.value.slice(0, -1);
-				}
-			}
-	
-			function changeHeight() {
-				document.getElementById("visualizer").style.height = `${document.getElementById("bug-report").getBoundingClientRect().height}px`;
-			}
-	
-			let cooldown = false;
-	
-			function borderFunction() {
-				document.getElementById("type1").style.border = "";
-				document.getElementById("type2").style.border = "";
-			}
-	
+
 			function inputFunction(element) {
-				element.style.border = "";
+				const { value, id } = element;
+				const length = value.length;
+				const bugValue = ((value === "") && (id === "Bug")) ? "Placeholder Title" : value;
+				const detailsValue = ((value === "") && (id === "Details")) ? "Placeholder for Details" : marked(value); // For compiling markdown: https://github.com/markedjs/marked
+				const reproStepsValue = ((value === "") && (id === "reproSteps")) ? "Placeholder for Repro Steps" : marked(value);
+
+				function mirrorInput(codespan, elementValue) {
+					if (length !== 0) {
+						element.style.border = "";
+						codespan.innerHTML = elementValue;
+					}
+					else {
+						codespan.innerHTML = elementValue;
+					}
+				}
+				switch (element.id) {
+					case "Bug": {
+						bugChanged = true;
+						mirrorInput(codespanBug, bugValue);
+						return;
+					}
+					case "Details": {
+						detailsChanged = true;
+						mirrorInput(codespanDetails, detailsValue);
+						return;
+					}
+					case "reproSteps": {
+						reproChanged = true;
+						mirrorInput(codespanReproSteps, reproStepsValue);
+						return;
+					}
+					case "tag": {
+						tagChanged = true;
+						if (/^[a-z0-9,\s]*$/i.test(value) === true) {
+							codespanTags.innerHTML = value;
+						}
+						else {
+							specialCharWarn.style.display = "block";
+							changeHeight();
+							element.value = element.value.slice(0, -1);
+						}
+						return;
+					}
+					case "info": {
+						if (length !== 0) {
+							const compiledMarkdown = marked(value);
+							element.style.display = "block";
+							codespanInfo.innerHTML = compiledMarkdown;
+						}
+						else {
+							infoTitle.style.display = "none";
+							codespanInfo.innerHTML = "";
+						}
+						return;
+					}
+				}
 			}
-	
+
+			function changeHeight() {
+				visualizer.style.height = `${bugReport.getBoundingClientRect().height}px`;
+			}
+
+			function borderFunction() {
+				type1.style.border = "";
+				type2.style.border = "";
+			}
+
 			function hideFileFields(bool) {
 				if (bool === true) {
 					for (let i = 0; i <= 7; i++) {
@@ -585,8 +614,8 @@
 						}
 					
 						if (i === 7) {
-							document.getElementById("image-parent").style.display = "none";
-							document.getElementById("attachment-previewer").style.display = "none";
+							imageParent.style.display = "none";
+							imagePreviewerDivision.style.display = "none";
 							return "Function completed!";
 						}
 					}
@@ -594,8 +623,6 @@
 			}
 
 			function hideFilePreviewer(bool) {
-				const cardCoverImageParent = document.getElementById("image-parent");
-				const imagePreviewerDivision = document.getElementById("attachment-previewer");
 				if (bool === true) {
 					cardCoverImageParent.style.display = "none";
 					imagePreviewerDivision.style.display = "none";
@@ -610,52 +637,58 @@
 			function submitFunction() {
 				if (cooldown == false) {
 					cooldown = true;
-					setTimeout(() => {
-						cooldown = false;
-					}, 5000);
-					const fileLinks = document.getElementById("fileText").value;
+					const fileLinks = fileText.value;
 					const fileArray = fileLinks.split("||");
-					const bugField = document.getElementById("Bug").value;
-					const tagField = document.getElementById("tag").value;
-					const type1Field = document.getElementById("type1").checked;
-					const type2Field = document.getElementById("type2").checked;
-					const detailsField = document.getElementById("Details").value;
-					const reproField = document.getElementById("reproSteps").value;
+					const bugField = bug.value;
+					const tagField = tags.value;
+					const type1Field = type1.checked;
+					const type2Field = type2.checked;
+					const detailsField = details.value;
+					const reproField = reproSteps.value;
 					if ((bugField !== "") && (tagField !== "") && ((type1Field === true) || (type2Field === true)) && (detailsField !== "") && (reproField !== "")) {
 						if (fileArray.length > 8) {
-							document.getElementById("attachWarnLink").style.display = "block";
-							document.getElementById("fileText").style.border = "1px solid red";
+							attachWarnLink.style.display = "block";
+							fileText.style.border = "1px solid red";
+							cooldown = false;
 						}
 						else {
-							document.getElementById("bug-report").submit();
+							bugReport.submit();
 						}
 					}
 					else {
-						document.getElementById("submitWarn").style.display = "block";
+						submitWarn.style.display = "block";
 						changeHeight();
 	
 						if ((type1Field === false) && (type2Field === false)) {
-							document.getElementById("type1").style.border = "1px solid red";
-							document.getElementById("type2").style.border = "1px solid red";
+							type1.style.border = "1px solid red";
+							type1.style.border = "1px solid red";
 						}
 	
-						(bugField === "") ? (document.getElementById("Bug").style.border = "1px solid red") : null;
-						(detailsField === "") ? (document.getElementById("Details").style.border = "1px solid red") : null;
-						(tagField === "") ? (document.getElementById("tag").style.border = "1px solid red") : null;
-						(reproField === "") ? (document.getElementById("reproSteps").style.border = "1px solid red") : null;
+						(bugField === "") ? (bug.style.border = "1px solid red") : null;
+						(detailsField === "") ? (details.style.border = "1px solid red") : null;
+						(tagField === "") ? (tags.style.border = "1px solid red") : null;
+						(reproField === "") ? (reproSteps.style.border = "1px solid red") : null;
+						cooldown = false;
 					}
 				}
 			}
 
+			function fileUpload() {
+				fileCounter.innerHTML = '';
+				changeHeight();
+				traditionalUpload = true;
+				fileInput.value = null;
+				hideFileFields(true);
+				fileInput.click();
+			}
+
 			function makeDroppable(element, callback) {
-				const input = document.getElementById("file");
-				let traditionalUpload = false;
-				input.addEventListener('change', (event) => {
+				fileInput.addEventListener('change', (event) => {
 					if (traditionalUpload === true) {
 						triggerCallback(event);
 					}
 				});
-				element.appendChild(input);
+				element.appendChild(fileInput);
 
 				element.addEventListener("dragover", (event) => {
 					event.preventDefault();
@@ -678,24 +711,28 @@
 					triggerCallback(event);
 				});
 
-				element.addEventListener("click", () => {
-					traditionalUpload = true;
-					input.value = null;
-					hideFileFields(true);
-					input.click();
-				});
-
-				element.addEventListener("keypress", () => {
-					traditionalUpload = true;
-					input.value = null;
-					hideFileFields(true);
-					input.click();
+				element.addEventListener("paste", async (event) => { // Would work only for files not copied from file explorer. See https://bugs.chromium.org/p/chromium/issues/detail?id=316472
+					if (event.clipboardData.files.length !== 0) {
+						traditionalUpload = false;
+    					event.preventDefault();
+						hideFileFields(true);
+						triggerCallback(event);
+					}
 				});
 
 				function triggerCallback(event) {
 					let files;
-					if (event.dataTransfer) {
-						input.value = null;
+
+					if (event.clipboardData) {
+						fileInput.value = null;
+						files = event.clipboardData.files;
+						callback.call(null, files, true);
+					}
+					else if (event.dataTransfer) {
+						console.log(event.dataTransfer.files);
+						console.log(event.dataTransfer.items);
+						console.log(event.dataTransfer.types);
+						fileInput.value = null;
 						files = event.dataTransfer.files;
 						callback.call(null, files, true);
 					}
@@ -703,22 +740,15 @@
 						files = event.target.files;
 						callback.call(null, files, false);
 					}
-					else if (event.clipboardData) {
-						input.value = null;
-						files = event.clipboardData.files;
-						callback.call(null, files, true);
-					}
 				}
 			}
-
-			const element = document.querySelector(".droppable");
 
 			function callback(fileuploaded, boolean) {
 				if (fileuploaded.length <= 8) {
 					for (let i = 0; i <= (fileuploaded.length - 1); i++) { // Used for adding Edge support ┻━┻ミヽ(ಠ益ಠ)ﾉ彡┻━┻
 						const fileObject = fileuploaded[i];
 						if (fileObject.size > 8000000) {
-							document.getElementById("attachWarn2").style.display = "block";
+							attachWarnSize.style.display = "block";
 							changeHeight();
 							return;
 						}
@@ -730,11 +760,11 @@
 							const time = date.pop();
 	
 							if (indexValue === 1) {
-								document.getElementById("card-cover").setAttribute("src", fileURL);
-								document.getElementById("image-parent").style.display = "block";
+								cardCover.setAttribute("src", fileURL);
+								imageParent.style.display = "block";
 							}
 
-							document.getElementById("attachment-previewer").style.display = "block";
+							imagePreviewerDivision.style.display = "block";
 							document.getElementById(`attach-box-${indexValue}`).style.display = "block";
 							document.getElementById(`image-${indexValue}`).setAttribute("src", fileURL);
 							document.getElementById(`image-copy${indexValue}`).setAttribute("src", fileURL);
@@ -745,46 +775,20 @@
 					}
 
 					if (boolean === true) {
-						document.getElementById("file").files = fileuploaded;
+						fileInput.files = fileuploaded;
 					}
 					
-					document.getElementById("additionalInfo2").style.display = "block";
-					document.getElementById("additionalInfo2").innerHTML = `${fileuploaded.length} file(s) selected.`;
+					fileCounter.style.display = "block";
+					fileCounter.innerHTML = `${fileuploaded.length} file(s) selected.`;
 					changeHeight();
 				}
 				else {
-					document.getElementById("attachWarn").style.display = "block";
+					attachWarnCount.style.display = "block";
 					changeHeight();
 				}
 			}
 
-			makeDroppable(element, callback);
-
-			function buttonFunction() {
-				document.getElementById("fileButton").style.display = "none";
-				document.getElementById("linkButton").style.display = "block";
-				document.getElementById("fileDrop").style.display = "block";
-				document.getElementById("hidden").style.display = "none";
-				document.getElementById("additionalInfo").style.display = "none";
-				document.getElementById("additionalInfo2").style.display = "block";
-				document.getElementById("fileText").setAttribute("disabled", true);
-				document.getElementById("file").removeAttribute("disabled");
-				changeHeight();
-				hideFilePreviewer(false);
-			}
-
-			function buttonFunction2() {
-				document.getElementById("linkButton").style.display = "none";
-				document.getElementById("fileButton").style.display = "block";
-				document.getElementById("hidden").style.display = "block";
-				document.getElementById("fileDrop").style.display = "none";
-				document.getElementById("additionalInfo").style.display = "block";
-				document.getElementById("additionalInfo2").style.display = "none";
-				document.getElementById("file").setAttribute("disabled", true);
-				document.getElementById("fileText").removeAttribute("disabled");
-				changeHeight();
-				hideFilePreviewer(true);
-			}
+			makeDroppable(fileElement, callback);
 		</script>
 		<script src="./javascript" defer></script>
 	</footer>

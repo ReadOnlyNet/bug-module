@@ -76,6 +76,10 @@
                 "object": true
             }
         ],
+        "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+        "comma-dangle": ["error", "never"],
+        "comma-spacing": "error",
+        "comma-style": "error",
         "semi-spacing": "error",
 		"space-before-blocks": "error",
 		"space-before-function-paren": ["error", {
