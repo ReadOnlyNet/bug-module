@@ -8,9 +8,9 @@
     },
 
     "emote": {
-        "error": "<:RedTick:276107398349979650>",
-        "success": "<:GreenTick:276107463688847360>",
-        "loading": "<a:loading:397911964988342282>",
+        "error": "<:x:>",
+        "success": "<:white_check_mark:>",
+        "loading": "<:timer:>",
         "update": ":tools:",
         "info": ":information_source:"
     },
