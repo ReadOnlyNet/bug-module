@@ -10,7 +10,7 @@ class Client extends AxonClient {
     }
 
     initStaff() {
-        this.staff.bug_hunter = ["320296998332792832"];
+        this.staff.bug_hunter = ["918160147572989973"];
         this.Logger.notice("Defined bot staffs have been set up!");
     }
 
